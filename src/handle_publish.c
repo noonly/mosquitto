@@ -32,6 +32,14 @@ Contributors:
 
 int handle__publish(struct mosquitto_db *db, struct mosquitto *context)
 {
+	//context->last_msg_in
+//	log__printf(NULL, MOSQ_LOG_INFO,"Invalid QoS in PUBLISH from %d, disconnecting.", context->last_msg_in);
+
+	if(mosquitto_time() - context->last_msg_in < 2)
+	{
+		return 0;
+	}
+
 	char *topic;
 	mosquitto__payload_uhpa payload;
 	uint32_t payloadlen;
